@@ -177,4 +177,10 @@ const putAlumnoBylegajo = async (req, res) => {
   }
 }
 
-module.exports = { getAlumnoAll, getAlumnoById, putAlumnoBylegajo }
+module.exports = {
+  getAlumnoAll,
+  getAlumnoById,
+  postNewAlumno,
+  putAlumnoBylegajo,
+  deleteAlumnoByLegajo
+}

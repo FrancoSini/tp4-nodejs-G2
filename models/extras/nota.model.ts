@@ -1,26 +1,40 @@
 import { AlumnoModel } from '../alumno.model'
 export class NotaModel {
   constructor(
+    protected id: number,
+    protected legajo: number,
+    protected Materia: string,
     protected nota: number,
-    protected Alumno: AlumnoModel,
-    protected Materia: string
+    protected fecha: string = new Date().toISOString().split('T')[0]
   ) {}
 
   // getters y setters
   public getNota(): number {
     return this.nota
   }
-  public getAlumno(): AlumnoModel {
-    return this.Alumno
+  public getId(): number {
+    return this.id
+  }
+  public getLegajo(): number {
+    return this.legajo
   }
   public getMateria(): string {
     return this.Materia
   }
+  public getFecha(): string {
+    return this.fecha
+  }
+  public setFecha(fecha: string): void {
+    this.fecha = fecha
+  }
+  public setId(id: number): void {
+    this.id = id
+  }
+  public setLegajo(legajo: number): void {
+    this.legajo = legajo
+  }
   public setNota(nota: number): void {
     this.nota = nota
-  }
-  public setAlumno(alumno: AlumnoModel): void {
-    this.Alumno = alumno
   }
   public setMateria(materia: string): void {
     this.Materia = materia
@@ -28,8 +42,10 @@ export class NotaModel {
   // método para devolver todos los atributos de la nota en un objeto literal/plano
   public getAllNotaAttributes(): object {
     return {
+      id: this.id,
+      legajo: this.legajo,
       nota: this.nota,
-      Alumno: this.Alumno.getAllAttributes(),
+      fecha: this.fecha,
       Materia: this.Materia
     }
   }

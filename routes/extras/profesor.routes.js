@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const {
   validateInputProfesor
-} = require('../middleware/profesor-validator.middleware')
+} = require('../../middleware/profesor-validator.middleware')
 const {
   getProfesorAll,
   getProfesorById,

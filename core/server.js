@@ -21,7 +21,7 @@ class Server {
     this.app.use('/materias', require('../routes/extra/materia.routes'))
     this.app.use('/notas', require('../routes/extra/nota.routes'))
     */
-    this.app.use('/profesores', require('../routes/extra/profesor.routes'))
+    this.app.use('/profesores', require('../routes/extras/profesor.routes'))
     // manejo de errores
     this.app.use((req, res, next) => {
       return res.status(400).json({ msg: 'Error.' })

@@ -1,5 +1,5 @@
 const fs = require('fs').promises
-const { ProfesorModel } = require('../models/profesor.model')
+const { ProfesorModel } = require('../models/extras/profesor.model')
 
 const getProfesorAll = async (req, res) => {
   try {

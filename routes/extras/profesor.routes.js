@@ -8,7 +8,7 @@ const {
   postNewProfesor,
   putProfesorByLegajo,
   deleteProfesorByLegajo
-} = require('../controllers/profesor.controller')
+} = require('../../controllers/profesor.controller')
 
 const rutas = Router()
 

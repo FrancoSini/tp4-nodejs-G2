@@ -3,7 +3,7 @@ const { ProfesorModel } = require('../models/extras/profesor.model')
 
 const getProfesorAll = async (req, res) => {
   try {
-    const data = await fs.readFile('./data/profesores.json', 'utf8')
+    const data = await fs.readFile('./data/extras/profesores.json', 'utf8')
     const profesores = JSON.parse(data)
 
     return res.status(200).json(profesores)
@@ -17,7 +17,7 @@ const getProfesorAll = async (req, res) => {
 
 const getProfesorById = async (req, res) => {
   try {
-    const data = await fs.readFile('./data/profesores.json', 'utf8')
+    const data = await fs.readFile('./data/extras/profesores.json', 'utf8')
     const profesores = JSON.parse(data)
 
     const { legajo } = req.params
@@ -42,7 +42,7 @@ const postNewProfesor = async (req, res) => {
   try {
     const { nombre, apellido, email, especialidad } = req.body
 
-    const data = await fs.readFile('./data/profesores.json', 'utf8')
+    const data = await fs.readFile('./data/extras/profesores.json', 'utf8')
     const profesores = JSON.parse(data)
 
     const legajos = profesores.map((profesor) => profesor.legajo)
@@ -60,7 +60,7 @@ const postNewProfesor = async (req, res) => {
     profesores.push(profesorNuevo)
 
     await fs.writeFile(
-      './data/profesores.json',
+      './data/extras/profesores.json',
       JSON.stringify(profesores, null, 2),
       'utf8'
     )
@@ -83,7 +83,7 @@ const putProfesorByLegajo = async (req, res) => {
   try {
     const { nombre, apellido, email, especialidad, isActive } = req.body
 
-    const data = await fs.readFile('./data/profesores.json', 'utf8')
+    const data = await fs.readFile('./data/extras/profesores.json', 'utf8')
     const profesores = JSON.parse(data)
 
     const index = profesores.findIndex(
@@ -107,7 +107,7 @@ const putProfesorByLegajo = async (req, res) => {
     profesores[index].modificacion = new Date().toISOString().split('T')[0]
 
     await fs.writeFile(
-      './data/profesores.json',
+      './data/extras/profesores.json',
       JSON.stringify(profesores, null, 2),
       'utf8'
     )
@@ -128,7 +128,7 @@ const deleteProfesorByLegajo = async (req, res) => {
   try {
     const { legajo } = req.params
 
-    const data = await fs.readFile('./data/profesores.json', 'utf8')
+    const data = await fs.readFile('./data/extras/profesores.json', 'utf8')
     const profesores = JSON.parse(data)
 
     const index = profesores.findIndex(
@@ -145,7 +145,7 @@ const deleteProfesorByLegajo = async (req, res) => {
     profesores.splice(index, 1)
 
     await fs.writeFile(
-      './data/profesores.json',
+      './data/extras/profesores.json',
       JSON.stringify(profesores, null, 2),
       'utf8'
     )

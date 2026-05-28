@@ -17,10 +17,8 @@ class Server {
 
   rutas() {
     this.app.use('/alumnos', require('../routes/alumno.routes'))
-    /*
-    this.app.use('/materias', require('../routes/extra/materia.routes'))
-    this.app.use('/notas', require('../routes/extra/nota.routes'))
-    */
+    this.app.use('/materias', require('../routes/extras/materia.routes'))
+    //this.app.use('/notas', require('../routes/extra/nota.routes'))
     this.app.use('/profesores', require('../routes/extras/profesor.routes'))
     // manejo de errores
     this.app.use((req, res, next) => {

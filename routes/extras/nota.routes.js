@@ -1,18 +1,20 @@
-const { Router } = Require('express')
-const { validateInputNota } = require('../middleware/nota-validator.middleware')
+const { Router } = require('express')
+const {
+  validateInputNota
+} = require('../../middleware/nota-validator.middleware')
 const {
   getAllNotas,
   getNotaById,
   postNewNota,
-  putNotaByLegajo,
-  deleteNotaByLegajo
-} = require('../controllers/nota.controller')
+  putNotaById,
+  deleteNotaById
+} = require('../../controllers/nota.controller')
 
 const rutas = Router()
 rutas.get('/', getAllNotas)
-rutas.get('/:legajo', getNotaById)
+rutas.get('/:id', getNotaById)
 rutas.post('/', postNewNota)
-rutas.put('/:legajo', validateInputNota, putNotaByLegajo)
-rutas.delete('/:legajo', deleteNotaByLegajo)
+rutas.put('/:id', putNotaById)
+rutas.delete('/:id', deleteNotaById)
 
 module.exports = rutas

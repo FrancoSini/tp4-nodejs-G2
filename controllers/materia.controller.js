@@ -36,7 +36,7 @@ const getMateriaById = async (req, res) => {
 
 const postNewMateria = async (req, res) => {
   try {
-    const { idMateria, nombre, profesor } = req.body
+    const { idMateria, nombre, cuatrimestre } = req.body
 
     const data = await fs.readFile('./data/extras/sys-materias.json', 'utf8')
     const materias = JSON.parse(data)
@@ -47,7 +47,7 @@ const postNewMateria = async (req, res) => {
       return res.status(400).json({ error: `La materia ${idMateria} ya existe` })
     }
 
-    const nuevaMateria = { idMateria, nombre, profesor }
+    const nuevaMateria = { idMateria, nombre, cuatrimestre }
     materias.push(nuevaMateria)
 
     await fs.writeFile('./data/extras/sys-materias.json', JSON.stringify(materias, null, 2))
@@ -61,7 +61,7 @@ const postNewMateria = async (req, res) => {
 const putMateriaById = async (req, res) => {
   try {
     const { id } = req.params
-    const { nombre, profesor } = req.body
+    const { nombre, cuatrimestre } = req.body
 
     const data = await fs.readFile('./data/extras/sys-materias.json', 'utf8')
     const materias = JSON.parse(data)
@@ -72,7 +72,7 @@ const putMateriaById = async (req, res) => {
     }
 
     if (nombre) materias[index].nombre = nombre
-    if (profesor) materias[index].profesor = profesor
+    if (cuatrimestre) materias[index].cuatrimestre = cuatrimestre
     materias[index].modificacion = new Date().toISOString().split('T')[0]
 
     await fs.writeFile('./data/extras/sys-materias.json', JSON.stringify(materias, null, 2))

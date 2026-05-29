@@ -1,4 +1,4 @@
-export class ClaseModel {
+export class MateriaModel {
   constructor(
     protected idMateria: string,
     protected nombre: string,

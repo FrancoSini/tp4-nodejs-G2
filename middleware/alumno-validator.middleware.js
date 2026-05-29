@@ -23,5 +23,23 @@ const validateInputAlumno = (req, res, next) => {
 
   next()
 }
+const fs = require('fs').promises
+const validaAlumnoExiste = async (req, res, next) => {
+  try {
+    const { legajo } = req.body
+    const data = await fs.readFile('./data/alumnos.json', 'utf8')
+    const alumnos = JSON.parse(data)
 
-module.exports = { validateInputAlumno }
+    const alumnoExiste = alumnos.some(a => a.legajo === Number(legajo))
+    if (!alumnoExiste) {
+      return res.status(400).json({ error: `El legajo ${legajo} no existe en el sistema` })
+    }
+
+    next()
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ error: 'Error al validar alumno' })
+  }
+}
+
+module.exports = { validateInputAlumno, validaAlumnoExiste }

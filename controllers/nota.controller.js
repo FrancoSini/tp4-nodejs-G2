@@ -32,33 +32,42 @@ const getNotaById = async (req, res) => {
 }
 const postNewNota = async (req, res) => {
   try {
-    const { id, legajo, idMateria, nota, fecha } = req.body
+    const { legajo, idMateria, nota, fecha } = req.body
 
     const data = await fs.readFile('./data/extras/sys-notas.json', 'utf8')
     const notas = JSON.parse(data)
+    console.log('Se parseo la informacion a "notas"')
+    const idnotas = notas.map((n) => n.id)
 
-    console.log('Se parseó la información a "notas"')
-    const existe = notas.some((n) => n.id === Number(id))
+    const nuevoID = Math.max(...idnotas) + 1
+    console.log(`Se calculó el nuevo ID: ${nuevoID}`)
 
-    if (existe) {
-      return res.status(400).json({ error: `La nota ${id} ya existe` })
-    }
+    const nuevaNota = new NotaModel(nuevoID, legajo, idMateria, nota, fecha)
+    console.log('Se creó la nueva nota con el modelo')
 
-    const nuevaNota = { id, legajo, idMateria, nota, fecha }
-    notas.push(nuevaNota)
+    const notaNueva = nuevaNota.getAllNotaAttributes()
+
+    notas.push(notaNueva)
+    console.log('Se agregó la nueva nota al array de notas')
 
     await fs.writeFile(
       './data/extras/sys-notas.json',
-      JSON.stringify(notas, null, 2)
+      JSON.stringify(notas, null, 2),
+      'utf8'
     )
-    return res.status(201).json({ msg: 'Nota creada exitosamente', nuevaNota })
+
+    return res.status(201).json({
+      msg: 'Se creó correctamente la nueva nota',
+      nota: notaNueva
+    })
   } catch (error) {
     console.log(error)
     return res.status(500).json({
-      error: 'No se pudieron guardar los datos de la nueva nota'
+      error: 'No se pudieron crear los datos de la nueva nota'
     })
   }
 }
+
 const putNotaById = async (req, res) => {
   const { id } = req.params
   try {
@@ -70,7 +79,6 @@ const putNotaById = async (req, res) => {
       return res.status(404).json({ error: 'Nota no encontrada' })
     }
     // modificaciones
-    if (id) notas[notaIndex].id = id
     if (nota) notas[notaIndex].nota = nota
     if (idMateria) notas[notaIndex].idMateria = idMateria
     if (fecha) notas[notaIndex].fecha = fecha

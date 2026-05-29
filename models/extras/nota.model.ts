@@ -42,10 +42,10 @@ export class NotaModel {
   public getAllNotaAttributes(): object {
     return {
       id: this.id,
-      legajo: this.legajo.getLegajo(),
+      legajo: this.legajo,
+      idMateria: this.idMateria,
       nota: this.nota,
-      fecha: this.fecha,
-      idMateria: this.idMateria.getNombre()
+      fecha: this.fecha
     }
   }
 }

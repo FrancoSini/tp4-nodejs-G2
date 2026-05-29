@@ -25,5 +25,23 @@ const validateInputMateria = (req, res, next) => {
 
   next()
 }
+const fs = require('fs').promises
+const validaMateriaExiste = async (req, res, next) => {
+  try {
+    const { idMateria } = req.body
+    const data = await fs.readFile('./data/extras/sys-materias.json', 'utf8')
+    const materias = JSON.parse(data)
 
-module.exports = { validateInputMateria }
+    const materiaExiste = materias.some(m => m.idMateria === idMateria)
+    if (!materiaExiste) {
+      return res.status(400).json({ error: `La materia ${idMateria} no existe en el sistema` })
+    }
+
+    next()
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ error: 'Error al validar materia' })
+  }
+}
+
+module.exports = { validateInputMateria, validaMateriaExiste }

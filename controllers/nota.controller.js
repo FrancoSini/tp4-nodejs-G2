@@ -1,6 +1,7 @@
 const fs = require('fs').promises
 const { NotaModel } = require('../models/extras/nota.model')
 
+
 const getAllNotas = async (req, res) => {
   try {
     const data = await fs.readFile('./data/extras/sys-notas.json', 'utf8')
@@ -13,6 +14,7 @@ const getAllNotas = async (req, res) => {
     })
   }
 }
+
 const getNotaById = async (req, res) => {
   try {
     const data = await fs.readFile('./data/extras/sys-notas.json', 'utf8')
@@ -30,31 +32,21 @@ const getNotaById = async (req, res) => {
     })
   }
 }
+
 const postNewNota = async (req, res) => {
   try {
-    const { legajo, idMateria, nota, fecha } = req.body
+    const { legajo, idMateria, nota } = req.body
 
     const data = await fs.readFile('./data/extras/sys-notas.json', 'utf8')
     const notas = JSON.parse(data)
-    console.log('Se parseo la informacion a "notas"')
     const idnotas = notas.map((n) => n.id)
-
     const nuevoID = Math.max(...idnotas) + 1
-    console.log(`Se calculó el nuevo ID: ${nuevoID}`)
 
-    const nuevaNota = new NotaModel(nuevoID, legajo, idMateria, nota, fecha)
-    console.log('Se creó la nueva nota con el modelo')
-
+    const nuevaNota = new NotaModel(nuevoID, legajo, idMateria, nota)
     const notaNueva = nuevaNota.getAllNotaAttributes()
 
     notas.push(notaNueva)
-    console.log('Se agregó la nueva nota al array de notas')
-
-    await fs.writeFile(
-      './data/extras/sys-notas.json',
-      JSON.stringify(notas, null, 2),
-      'utf8'
-    )
+    await fs.writeFile('./data/extras/sys-notas.json', JSON.stringify(notas, null, 2), 'utf8')
 
     return res.status(201).json({
       msg: 'Se creó correctamente la nueva nota',
@@ -71,24 +63,20 @@ const postNewNota = async (req, res) => {
 const putNotaById = async (req, res) => {
   const { id } = req.params
   try {
-    const { nota, idMateria, fecha } = req.body
+    const { nota, idMateria } = req.body
     const data = await fs.readFile('./data/extras/sys-notas.json', 'utf8')
     const notas = JSON.parse(data)
     const notaIndex = notas.findIndex((n) => n.id === Number(id))
     if (notaIndex === -1) {
       return res.status(404).json({ error: 'Nota no encontrada' })
     }
-    // modificaciones
+
     if (nota) notas[notaIndex].nota = nota
     if (idMateria) notas[notaIndex].idMateria = idMateria
-    if (fecha) notas[notaIndex].fecha = fecha
 
     notas[notaIndex].modificacion = new Date().toISOString().split('T')[0]
-    await fs.writeFile(
-      './data/extras/sys-notas.json',
-      JSON.stringify(notas, null, 2),
-      'utf8'
-    )
+
+    await fs.writeFile('./data/extras/sys-notas.json', JSON.stringify(notas, null, 2), 'utf8')
 
     return res.status(200).json({
       msg: `Se modificó correctamente la nota del id n° ${id}`,
@@ -105,7 +93,6 @@ const putNotaById = async (req, res) => {
 const deleteNotaById = async (req, res) => {
   try {
     const { id } = req.params
-
     const data = await fs.readFile('./data/extras/sys-notas.json', 'utf8')
     const notas = JSON.parse(data)
     const index = notas.findIndex((nota) => nota.id === Number(id))
@@ -116,11 +103,8 @@ const deleteNotaById = async (req, res) => {
     }
     const notaEncontrada = notas[index]
     notas.splice(index, 1)
-    await fs.writeFile(
-      './data/extras/sys-notas.json',
-      JSON.stringify(notas, null, 2),
-      'utf8'
-    )
+    await fs.writeFile('./data/extras/sys-notas.json', JSON.stringify(notas, null, 2), 'utf8')
+
     return res.status(200).json({
       msg: `Se eliminó correctamente la nota del id n° ${notaEncontrada.id}`,
       nota: notaEncontrada

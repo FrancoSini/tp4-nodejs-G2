@@ -12,7 +12,7 @@ class Server {
 
   middleware() {
     this.app.use(cors({
-      origin: 'https://barreramateo.github.io'
+      origin: 'https://barreramateo.github.io/tp4-g2-front/'
     }))
     this.app.use(express.json())
   }

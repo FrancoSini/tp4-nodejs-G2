@@ -11,10 +11,9 @@ class Server {
   }
 
   middleware() {
-    this.app.use(cors({
-      origin: 'https://barreramateo.github.io'
-    }))
-    this.app.use(express.json())
+    this.app.use(cors());
+    this.app.use(express.json());
+    this.app.use(express.static('public'));
   }
 
   rutas() {

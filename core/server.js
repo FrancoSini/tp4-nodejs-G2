@@ -5,7 +5,7 @@ require('dotenv').config()
 class Server {
   constructor() {
     this.app = express()
-    this.port = process.env.PORT || 3001
+    this.port = process.env.PORT || 3000
     this.middleware()
     this.rutas()
   }
@@ -17,12 +17,12 @@ class Server {
 
   rutas() {
     this.app.use('/alumnos', require('../routes/alumno.routes'))
-    /*
-    this.app.use('/materias', require('../routes/extra/materia.routes'))
-    this.app.use('/notas', require('../routes/extra/nota.routes'))
-    this.app.use('/profesores', require('../routes/extra/profesor.routes'))
-    */
 
+    this.app.use('/materias', require('../routes/extras/materia.routes'))
+
+    this.app.use('/notas', require('../routes/extras/nota.routes'))
+
+    this.app.use('/profesores', require('../routes/extras/profesor.routes'))
     // manejo de errores
     this.app.use((req, res, next) => {
       return res.status(400).json({ msg: 'Error.' })

@@ -1,0 +1,102 @@
+[
+  {
+    "legajo": 20001,
+    "nombre": "Ana",
+    "apellido": "Fernández",
+    "email": "a.fernandez@facultad.edu.ar",
+    "especialidad": "Matemática",
+    "fechaAlta": "2026-03-02",
+    "modificacion": "2026-03-02",
+    "isActive": true
+  },
+  {
+    "legajo": 20002,
+    "nombre": "Diego",
+    "apellido": "Martínez",
+    "email": "d.martinez@facultad.edu.ar",
+    "especialidad": "Historia",
+    "fechaAlta": "2026-03-05",
+    "modificacion": "2026-03-05",
+    "isActive": true
+  },
+  {
+    "legajo": 20003,
+    "nombre": "Carolina",
+    "apellido": "Suárez",
+    "email": "c.suarez@facultad.edu.ar",
+    "especialidad": "Literatura",
+    "fechaAlta": "2026-03-10",
+    "modificacion": "2026-03-10",
+    "isActive": true
+  },
+  {
+    "legajo": 20004,
+    "nombre": "Gabriel",
+    "apellido": "Pereyra",
+    "email": "g.pereyra@facultad.edu.ar",
+    "especialidad": "Física",
+    "fechaAlta": "2026-03-15",
+    "modificacion": "2026-03-15",
+    "isActive": false
+  },
+  {
+    "legajo": 20005,
+    "nombre": "Mariana",
+    "apellido": "Domínguez",
+    "email": "m.dominguez@facultad.edu.ar",
+    "especialidad": "Química",
+    "fechaAlta": "2026-03-20",
+    "modificacion": "2026-03-20",
+    "isActive": true
+  },
+  {
+    "legajo": 20006,
+    "nombre": "Ricardo",
+    "apellido": "Alonso",
+    "email": "r.alonso@facultad.edu.ar",
+    "especialidad": "Programación",
+    "fechaAlta": "2026-03-25",
+    "modificacion": "2026-03-25",
+    "isActive": true
+  },
+  {
+    "legajo": 20007,
+    "nombre": "Lucía",
+    "apellido": "Gómez",
+    "email": "l.gomez@facultad.edu.ar",
+    "especialidad": "Biología",
+    "fechaAlta": "2026-04-01",
+    "modificacion": "2026-04-01",
+    "isActive": true
+  },
+  {
+    "legajo": 20008,
+    "nombre": "Hernán",
+    "apellido": "Rivas",
+    "email": "h.rivas@facultad.edu.ar",
+    "especialidad": "Economía",
+    "fechaAlta": "2026-04-05",
+    "modificacion": "2026-04-05",
+    "isActive": true
+  },
+  {
+    "legajo": 20009,
+    "nombre": "Paula",
+    "apellido": "Castillo",
+    "email": "p.castillo@facultad.edu.ar",
+    "especialidad": "Arte",
+    "fechaAlta": "2026-04-10",
+    "modificacion": "2026-04-10",
+    "isActive": false
+  },
+  {
+    "legajo": 20010,
+    "nombre": "Esteban",
+    "apellido": "Moreno",
+    "email": "e.moreno@facultad.edu.ar",
+    "especialidad": "Filosofía",
+    "fechaAlta": "2026-04-15",
+    "modificacion": "2026-04-15",
+    "isActive": true
+  }
+]

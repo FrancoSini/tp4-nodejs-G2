@@ -69,12 +69,10 @@ Cada integrante desarrolló las funcionalidades asignadas de forma aislada en su
 
 
 
-##  Información General del Despliegue (Deploy)
+## Información General del Despliegue (Deploy)
 
-* **Link del Deploy en Render:** https://tp4-nodejs-g2.onrender.com/alumnos
-
-* **Formato de Intercambio de Datos:** `JSON`
-* **Persistencia Base:** Archivos JSON individuales locales (sin mezclar arrays en un mismo archivo).
+* **Link del Deploy Front-End:** https://barreramateo.github.io/tp4-g2-front/
+* **Link del Deploy Back-End:** https://tp4-nodejs-g2.onrender.com/alumnos
 
 ## Dockerización del Entorno
 Para garantizar la paridad entre desarrollo y producción se utilizó un contenedor Docker basado en la siguiente especificación real (`Dockerfile`):

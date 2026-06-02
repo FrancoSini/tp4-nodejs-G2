@@ -2,7 +2,7 @@
 ## TRABAJO PRÁCTICO N°4: Consumo de APIs, Arquitectura MVC, deploys y Docker
 
 ## API Sistema de Alumnos (TP4)
-Este proyecto es una API REST desarrollada para gestionar el sistema de un centro educativo, permitiendo administrar alumnos, profesores, materias y notas. La aplicación se encarga de realizar operaciones de alta, baja, modificación y consulta (CRUD) procesando los datos de manera segura y guardándolos localmente en archivos independientes en formato JSON. El backend está preparado con validaciones de datos estructuradas en TypeScript y configurado con Docker para correr de igual manera tanto en entornos locales como en la nube
+Este proyecto es una API REST desarrollada para gestionar de forma completa el sistema de un centro educativo, permitiendo administrar alumnos, profesores, materias y notas. La aplicación se encarga de realizar operaciones de alta, baja, modificación y consulta (CRUD) procesando los datos de manera segura y guardándolos localmente en archivos independientes en formato JSON. El backend está preparado con validaciones de datos estructuradas en TypeScript y configurado con Docker para correr de forma idéntica tanto en entornos locales como en el despliegue en la nube.
 
 ## GRUPO N°2:
 - Franco Sinigaglia
@@ -56,24 +56,28 @@ Este proyecto es una API REST desarrollada para gestionar el sistema de un centr
 
 ## Lógica principal
 
-El servidor se inicializa en `app.js` ejecutando una instancia de la clase `Server` estructurada en `./core/server.js`. La aplicación implementa el Modelo-Vista-Controladorpara desacoplar las responsabilidades. 
+El servidor se inicializa en `app.js` ejecutando una instancia de la clase `Server` estructurada en `./core/server.js`. La aplicación implementa el patrón de arquitectura modelo-Vista-Controlador (MVC) para desacoplar las responsabilidades. 
 
-Las peticiones HTTP entrantes son interceptadas por las rutas express en `/routes`, evaluadas mediante las validaciones de datos en `/middleware` y delegadas a las funciones asíncronas de los controladores en `/controllers`. Estos controladores leen y escriben datos directamente sobre el sistema de archivos utilizando el módulo de promesas de Node.js (`fs.promises`), garantizando la persistencia mediante estructuras basadas en bloques `try/catch`.
+Las peticiones HTTP entrantes son interceptadas por las rutas express en `/routes`, evaluadas mediante las validaciones de datos en la capa `/middleware` y delegadas a las funciones asíncronas de los controladores localizados en `/controllers`. Estos controladores leen y escriben datos directamente sobre el sistema de archivos utilizando el módulo de promesas de Node.js (`fs.promises`), garantizando la persistencia mediante estructuras robustas basadas en bloques `try/catch`.
 
 
 ## Metodología de Trabajo con Git y GitHub
 
-Trabajamos con una metodologia basada en git flow. Se protegió la rama `main` para código de producción a la entrega final. 
+El equipo adoptó una estrategia de ramificación basada en git flow. Se protegió la rama `main` para código estable de producción de cara a la entrega final. 
 
-Cada integrante desarrolló de forma aislada en sus respectivas ramas de desarrollo locales y remotas (`dev` y ramas específicas de características). 
+Cada integrante desarrolló las funcionalidades asignadas de forma aislada en sus respectivas ramas de desarrollo locales y remotas (`dev` y ramas específicas de características). Para integrar las modificaciones al tronco común, cada miembro realizó obligatoriamente como mínimo un commit descriptivo en su rama y generó un **Pull Request (PR)** para su revisión cruzada y posterior fusión (merge) libre de conflictos.
 
-## Información General del Despliegue (Deploy)
 
-* **Link del Deploy Front-End:** https://barreramateo.github.io/tp4-g2-front/
-* **Link del Deploy Back-End:** https://tp4-nodejs-g2.onrender.com/alumnos
+
+##  Información General del Despliegue (Deploy)
+
+* **Link del Deploy en Render:** https://tp4-nodejs-g2.onrender.com/alumnos
+
+* **Formato de Intercambio de Datos:** `JSON`
+* **Persistencia Base:** Archivos JSON individuales locales (sin mezclar arrays en un mismo archivo).
 
 ## Dockerización del Entorno
-Para garantizar la paridad entre desarrollo y producción se utilizó un contenedor Docker basado en la siguiente especificación real:
+Para garantizar la paridad entre desarrollo y producción se utilizó un contenedor Docker basado en la siguiente especificación real (`Dockerfile`):
 ```dockerfile
 FROM node:18
 WORKDIR /usr/src/app
@@ -791,7 +795,7 @@ const getProfesorById = async (req, res) => {
 ```
 Parámetros: req.params.legajo.
 
-Valor de retorno: objeto del profesor mapeado o un mensaje explícito de error.
+Valor de retorno: Obesor mapeado o un mensaje explícito de error.
 
 Lógica: Aplica Number() al legajo de la URL para realizar una búsqueda estricta con el método .find(). Si la consulta arroja una referencia nula, corta devolviendo un estado HTTP 404.
 
@@ -952,5 +956,99 @@ Valor de retorno: Objeto del profesor removido de la base de datos plana.
 
 Lógica: Valida la posición indexada. Si no se encuentra, interrumpe arrojando un error de estado 404. Caso contrario, reduce las dimensiones del vector usando .splice(index, 1) y escribe concurrentemente en disco con fs.writeFile.
 
+
+
+
+
 ## Documentación con Postman de todos los Métodos
-* **Enlace de la Colección Compartida en Postman:** https://mateobenjamintoto08-8666976.postman.co/workspace/Mateo-Benjamin-Barrera's-Worksp~cacc08c6-5109-452f-86ad-73def2b54fae/collection/49826409-71d2cce5-9ef2-401b-ba23-29c2116ed418?action=share&creator=49826409
+1. Pruebas del Módulo de Alumnos
+GET /alumnos (200 OK)
+Este endpoint permite recuperar la lista completa de alumnos registrados en el sistema de archivos JSON. Sin el /alumnos no podremos visualizar.
+
+Bash
+postman request '[https://tp4-nodejs-g2.onrender.com/alumnos](https://tp4-nodejs-g2.onrender.com/alumnos)'
+# Estado: 200 OK
+Ruta mal escrita (Error 400): Se produce cuando se ingresa una ruta no válida. Al colocar al final alumno en vez de alumnos (falta la "s"), la API devuelve la captura global de error.
+
+Bash
+postman request '[https://tp4-nodejs-g2.onrender.com/alumno](https://tp4-nodejs-g2.onrender.com/alumno)'
+# Estado: 400 BAD REQUEST -> Response: { "msg": "Error." }
+GET /alumnos/:legajo (200 OK)
+Este endpoint permite recuperar los datos detallados de un único alumno en base a su número de legajo enviado como parámetro en la URL.
+
+Bash
+postman request '[https://tp4-nodejs-g2.onrender.com/alumnos/10001](https://tp4-nodejs-g2.onrender.com/alumnos/10001)'
+# Estado: 200 OK
+Legajo Inexistente (Error 404): Ocurre cuando se solicita un alumno ingresando en la ruta un ID que no figura en los registros de la base de datos (Ej: 100099).
+
+Bash
+postman request '[https://tp4-nodejs-g2.onrender.com/alumnos/100099](https://tp4-nodejs-g2.onrender.com/alumnos/100099)'
+# Estado: 404 NOT FOUND -> Response: { "msg": "No existe el alumno con el legajo 100099" }
+POST /alumnos (200 OK / 201 Created)
+Este endpoint permite registrar un nuevo estudiante en el sistema. El backend genera el número de legajo de forma automática e incremental, e inicializa las fechas de alta y el estado activo.
+
+Bash
+postman request POST '[https://tp4-nodejs-g2.onrender.com/alumnos](https://tp4-nodejs-g2.onrender.com/alumnos)' \
+  --body '{ "nombre": "Mateo", "apellido": "Perez", "email": "m.perez@facultad.edu.ar" }'
+# Estado: 200 OK
+Petición sin cuerpo (Error 500): Se produce al querer crear un alumno nuevo enviando el body de la solicitud completamente vacío (sin datos).
+
+Bash
+postman request POST '[https://tp4-nodejs-g2.onrender.com/alumnos](https://tp4-nodejs-g2.onrender.com/alumnos)'
+# Estado: 500 INTERNAL SERVER ERROR -> Response: { "error": "No se pudo dar de alta el alumno" }
+PUT /alumnos/:legajo (200 OK)
+Este endpoint permite actualizar de forma parcial o total las propiedades de un estudiante existente en base a su número de legajo. Al impactar un cambio, el servidor actualiza automáticamente la propiedad modificacion.
+
+Bash
+postman request PUT '[https://tp4-nodejs-g2.onrender.com/alumnos/10025](https://tp4-nodejs-g2.onrender.com/alumnos/10025)' \
+  --body '{ "nombre": "Mateo", "apellido": "Barrera", "email": "m.perez@facultad.edu.ar" }'
+# Estado: 200 OK
+Edición sin parámetro ID en URL (Error 400): Se produce porque se quiere modificar un alumno pero sin enviar el legajo en la ruta. El error se genera pese a que el cuerpo JSON se encuentre correctamente confeccionado.
+
+Bash
+postman request PUT '[https://tp4-nodejs-g2.onrender.com/alumnos](https://tp4-nodejs-g2.onrender.com/alumnos)' \
+  --body '{ "nombre": "Mateo", ... }'
+# Estado: 400 BAD REQUEST -> Response: { "msg": "Error." }
+Ruta de Entidad Inválida (Error 404): Lanzado cuando se altera la URL base del recurso en la petición de actualización (Ej: /alumno/100028 en lugar de /alumnos/100028).
+
+Bash
+postman request PUT '[https://tp4-nodejs-g2.onrender.com/alumno/100028](https://tp4-nodejs-g2.onrender.com/alumno/100028)'
+# Estado: 404 NOT FOUND -> Response: { "msg": "Error. Pagina no encontrada" }
+DELETE /alumnos/:legajo (200 OK)
+Este endpoint realiza una eliminación física permanente del estudiante del archivo de persistencia JSON en base al legajo provisto.
+
+Bash
+postman request DELETE '[https://tp4-nodejs-g2.onrender.com/alumnos/10025](https://tp4-nodejs-g2.onrender.com/alumnos/10025)'
+# Estado: 200 OK
+Eliminación de ID Inexistente (Error 404): Se produce al intentar borrar un registro que no pertenece a la base de datos de la API (Ej: legajo 100025).
+
+2. Pruebas del Módulo de Profesores
+GET /profesores (200 OK)
+Este endpoint permite recuperar la lista completa de profesores registrados en el sistema de archivos JSON. Sin el /profesores no podremos visualizar.
+
+Bash postman request '[https://tp4-nodejs-g2.onrender.com/profesores](https://tp4-nodejs-g2.onrender.com/profesores)'
+# Estado: 200 OK
+GET /profesores/:legajo (200 OK)
+Este endpoint permite recuperar los datos detallados de un único profesor en base a su número de legajo enviado como parámetro en la URL.
+
+Bash
+postman request '[https://tp4-nodejs-g2.onrender.com/profesores/20001](https://tp4-nodejs-g2.onrender.com/profesores/20001)'
+# Estado: 200 OK
+POST /profesores (200 OK / 500 Error)
+Este endpoint permite registrar un nuevo profesor en el sistema. El backend genera el legajo de forma automática e incremental. Si se intenta ingresar un registro con el cuerpo vacío, el backend corta el flujo.
+
+Bash
+postman request POST '[https://tp4-nodejs-g2.onrender.com/profesores](https://tp4-nodejs-g2.onrender.com/profesores)'
+# Estado: 500 INTERNAL SERVER ERROR -> Response: { "error": "No se pudo dar de alta el profesor" }
+PUT /profesores/:legajo (200 OK)
+Este endpoint permite actualizar de forma parcial o total las propiedades de un profesor existente basándose en su legajo. Si se envía una estructura vacía o mal direccionada, el middleware interceptará la petición arrojando un error de página no encontrada.
+
+Bash
+postman request PUT '[https://tp4-nodejs-g2.onrender.com/profesores/20004](https://tp4-nodejs-g2.onrender.com/profesores/20004)' --body ''
+# Estado: 404 NOT FOUND -> Response: { "msg": "Error. Pagina no encontrada" }
+DELETE /profesores/:legajo (200 OK)
+Este endpoint realiza una eliminación física permanente del profesor del archivo de persistencia JSON en base al legajo provisto.
+
+Bash
+postman request DELETE '[https://tp4-nodejs-g2.onrender.com/profesores/20004](https://tp4-nodejs-g2.onrender.com/profesores/20004)'
+# Estado: 200 OK
